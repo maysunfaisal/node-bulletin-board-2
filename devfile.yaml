@@ -17,8 +17,8 @@ components:
       mountSources: true
       sourceMapping: /project
       endpoints:
-        - name: http-3001
-          targetPort: 3001
+        - name: http-3000
+          targetPort: 3000
 commands:
   - id: install
     exec:
