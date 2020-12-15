@@ -3,7 +3,8 @@ metadata:
   name: nodejs
   version: 1.0.0
   attributes:
-    alpha.build-dockerfile: mydir/Dockerfile
+    alpha.build-context: mydir
+    alpha.build-dockerfile: Dockerfile
 starterProjects:
   - name: nodejs-starter
     git:
@@ -19,10 +20,19 @@ components:
       endpoints:
         - name: http-3000
           targetPort: 3000
+  - name: runtime2
+    container:
+      image: registry.access.redhat.com/ubi8/nodejs-12:1-45
+      memoryLimit: 1024Mi
+      mountSources: true
+      sourceMapping: /project
+      endpoints:
+        - name: http-3000
+          targetPort: 3000
 commands:
   - id: install
     exec:
-      component: runtime
+      component: runtime2
       commandLine: npm install
       workingDir: /project
       group:
@@ -30,7 +40,7 @@ commands:
         isDefault: true
   - id: run
     exec:
-      component: runtime
+      component: runtime2
       commandLine: npm start
       workingDir: /project
       group:
@@ -38,7 +48,7 @@ commands:
         isDefault: true
   - id: debug
     exec:
-      component: runtime
+      component: runtime2
       commandLine: npm run debug
       workingDir: /project
       group:
@@ -46,7 +56,7 @@ commands:
         isDefault: true
   - id: test
     exec:
-      component: runtime
+      component: runtime2
       commandLine: npm test
       workingDir: /project
       group:
