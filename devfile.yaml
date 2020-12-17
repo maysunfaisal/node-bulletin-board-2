@@ -3,24 +3,19 @@ metadata:
   name: nodejs
   version: 1.0.0
   attributes:
-    alpha.build-context: mydir
+    alpha.build-context: src
     alpha.build-dockerfile: Dockerfile
-starterProjects:
-  - name: nodejs-starter
-    git:
-      remotes:
-        origin: "https://github.com/odo-devfiles/nodejs-ex.git"
 components:
-  - name: runtime
+  - name: buildguidance
     attributes:
       tool: console-import
     container:
-      image: maysun
+      image: buildguidanceimage-placeholder
       memoryLimit: 1024Mi
       endpoints:
         - name: http-3000
           targetPort: 3000
-  - name: runtime2
+  - name: runtime
     container:
       image: registry.access.redhat.com/ubi8/nodejs-12:1-45
       memoryLimit: 1024Mi
@@ -32,7 +27,7 @@ components:
 commands:
   - id: install
     exec:
-      component: runtime2
+      component: runtime
       commandLine: npm install
       workingDir: /project
       group:
@@ -40,7 +35,7 @@ commands:
         isDefault: true
   - id: run
     exec:
-      component: runtime2
+      component: runtime
       commandLine: npm start
       workingDir: /project
       group:
@@ -48,7 +43,7 @@ commands:
         isDefault: true
   - id: debug
     exec:
-      component: runtime2
+      component: runtime
       commandLine: npm run debug
       workingDir: /project
       group:
@@ -56,7 +51,7 @@ commands:
         isDefault: true
   - id: test
     exec:
-      component: runtime2
+      component: runtime
       commandLine: npm test
       workingDir: /project
       group:
